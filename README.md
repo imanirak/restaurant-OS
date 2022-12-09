@@ -29,7 +29,9 @@ docker compose up
 
 ### run a command in a running container
 <p>restaurant-web-1 is what the name of the docker container is called
-if you come across an error run "docker ps" to find the name of your container. </p>
+if you come across an error run "docker ps" to find the name of your container.
+ </p>
+
 ```
 docker exec -it restaurant-web-1 /bin/bash
 ```
