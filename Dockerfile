@@ -1,6 +1,7 @@
 # Use an official Python runtime based on Debian 10 "buster" as a parent image.
 FROM python:3.8.1-slim-buster
-
+ENV PYTHONUNBUFFERED 1
+ENV DJANGO_SETTINGS_MODULE restaurant.settings.local
 # Add user that will be used in the container.
 RUN useradd wagtail
 
@@ -46,7 +47,7 @@ COPY --chown=wagtail:wagtail . .
 USER wagtail
 
 # Collect static files.
-RUN python manage.py collectstatic --noinput --clear
+# RUN python manage.py collectstatic --noinput --clear
 
 # Runtime command that executes when "docker run" is called, it does the
 # following:
@@ -57,4 +58,4 @@ RUN python manage.py collectstatic --noinput --clear
 #   PRACTICE. The database should be migrated manually or using the release
 #   phase facilities of your hosting platform. This is used only so the
 #   Wagtail instance can be started with a simple "docker run" command.
-CMD set -xe; python manage.py migrate --noinput; gunicorn restaurant.wsgi:application
+#CMD set -xe; python manage.py migrate --noinput; gunicorn restaurant.wsgi:application

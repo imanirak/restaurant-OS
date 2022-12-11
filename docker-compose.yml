@@ -4,11 +4,11 @@ services:
     volumes:
       - ./data/db:/var/lib/postgresql/data
     ports:
-      - '5432'
+      - '5432:5432'
     environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_NAME=${POSTGRES_NAME}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
   web:
     build: .
     working_dir: /app/
@@ -24,9 +24,14 @@ services:
       - .:/code
     ports:
       - "8000:8000"
+    links:
+      - db:db
+    env_file:
+      - .env
     environment:
-      - POSTGRES_NAME=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_NAME=${POSTGRES_NAME}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - SECRET_KEY="${SECRET_KEY}"
     depends_on:
       - db
